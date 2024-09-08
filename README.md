@@ -1,4 +1,5 @@
 💰 Expense Tracker - Personal Finance Manager
+
 Expense Tracker is a desktop application created in Python using Tkinter that allows you to keep detailed track of your expenses. With this application, you can record, analyze, and visualize your personal finances, helping you make better decisions about your money.
 
 📸 Screenshot
