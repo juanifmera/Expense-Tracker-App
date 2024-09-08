@@ -2,9 +2,6 @@
 
 Expense Tracker is a desktop application created in Python using Tkinter that allows you to keep detailed track of your expenses. With this application, you can record, analyze, and visualize your personal finances, helping you make better decisions about your money.
 
-📸 Screenshot
-(Include an image of the application here)
-
 🚀 Key Features
 Expense Tracking: Add new expenses with details such as date, title, amount, and category.
 Graphical Visualization: Charts generated with Matplotlib and Seaborn to visualize your financial behavior.
