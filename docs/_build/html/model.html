@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>model module &mdash; documentación de Expense Tracker App - 0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=6fcc102b"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=f85f4cfb"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="view module" href="view.html" />
+    <link rel="prev" title="main module" href="main.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Expense Tracker App
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="controller.html">controller module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">model module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#model.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model.BaseModel.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">BaseModel.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.BaseModel.id"><code class="docutils literal notranslate"><span class="pre">BaseModel.id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model.Category"><code class="docutils literal notranslate"><span class="pre">Category</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model.Category.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Category.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.Category.category_name"><code class="docutils literal notranslate"><span class="pre">Category.category_name</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.Category.id"><code class="docutils literal notranslate"><span class="pre">Category.id</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model.Expense"><code class="docutils literal notranslate"><span class="pre">Expense</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model.Expense.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">Expense.DoesNotExist</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.Expense.amount"><code class="docutils literal notranslate"><span class="pre">Expense.amount</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.Expense.category"><code class="docutils literal notranslate"><span class="pre">Expense.category</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.Expense.date"><code class="docutils literal notranslate"><span class="pre">Expense.date</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.Expense.id"><code class="docutils literal notranslate"><span class="pre">Expense.id</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.Expense.title"><code class="docutils literal notranslate"><span class="pre">Expense.title</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#model.ExpenseModel"><code class="docutils literal notranslate"><span class="pre">ExpenseModel</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.add_category"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.add_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.add_expense"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.add_expense()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.calculate_totals"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.calculate_totals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.close_connection"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.close_connection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.delete_category"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.delete_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.delete_expense"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.delete_expense()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.get_categories"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.get_categories()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.get_category_totals"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.get_category_totals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.get_expenses"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.get_expenses()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.get_expenses_data"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.get_expenses_data()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model.ExpenseModel.update_expense"><code class="docutils literal notranslate"><span class="pre">ExpenseModel.update_expense()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="view.html">view module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Expense Tracker App</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">model module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/model.rst.txt" rel="nofollow"> Ver código fuente de la página</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-model">
+<span id="model-module"></span><h1>model module<a class="headerlink" href="#module-model" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="model.BaseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">model.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#BaseModel"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.BaseModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.BaseModel.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#model.BaseModel.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModelDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.BaseModel.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">BaseModel.id&gt;</span></em><a class="headerlink" href="#model.BaseModel.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="model.Category">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">model.</span></span><span class="sig-name descname"><span class="pre">Category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#Category"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.Category" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#model.BaseModel" title="model.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Category.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#model.Category.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal notranslate"><span class="pre">CategoryDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Category.category_name">
+<span class="sig-name descname"><span class="pre">category_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;TextField:</span> <span class="pre">Category.category_name&gt;</span></em><a class="headerlink" href="#model.Category.category_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Category.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">Category.id&gt;</span></em><a class="headerlink" href="#model.Category.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="model.Expense">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">model.</span></span><span class="sig-name descname"><span class="pre">Expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#Expense"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.Expense" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#model.BaseModel" title="model.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Expense.DoesNotExist">
+<span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#model.Expense.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>alias de <code class="xref py py-class docutils literal notranslate"><span class="pre">ExpenseDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Expense.amount">
+<span class="sig-name descname"><span class="pre">amount</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;FloatField:</span> <span class="pre">Expense.amount&gt;</span></em><a class="headerlink" href="#model.Expense.amount" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Expense.category">
+<span class="sig-name descname"><span class="pre">category</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;TextField:</span> <span class="pre">Expense.category&gt;</span></em><a class="headerlink" href="#model.Expense.category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Expense.date">
+<span class="sig-name descname"><span class="pre">date</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;TextField:</span> <span class="pre">Expense.date&gt;</span></em><a class="headerlink" href="#model.Expense.date" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Expense.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;AutoField:</span> <span class="pre">Expense.id&gt;</span></em><a class="headerlink" href="#model.Expense.id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="model.Expense.title">
+<span class="sig-name descname"><span class="pre">title</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;TextField:</span> <span class="pre">Expense.title&gt;</span></em><a class="headerlink" href="#model.Expense.title" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="model.ExpenseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">model.</span></span><span class="sig-name descname"><span class="pre">ExpenseModel</span></span><a class="reference internal" href="_modules/model.html#ExpenseModel"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.add_category">
+<span class="sig-name descname"><span class="pre">add_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.add_category"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.add_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.add_expense">
+<span class="sig-name descname"><span class="pre">add_expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.add_expense"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.add_expense" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.calculate_totals">
+<span class="sig-name descname"><span class="pre">calculate_totals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.calculate_totals"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.calculate_totals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.close_connection">
+<span class="sig-name descname"><span class="pre">close_connection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.close_connection"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.close_connection" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.delete_category">
+<span class="sig-name descname"><span class="pre">delete_category</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">category_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.delete_category"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.delete_category" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.delete_expense">
+<span class="sig-name descname"><span class="pre">delete_expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expense_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.delete_expense"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.delete_expense" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.get_categories">
+<span class="sig-name descname"><span class="pre">get_categories</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.get_categories"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.get_categories" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.get_category_totals">
+<span class="sig-name descname"><span class="pre">get_category_totals</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_expenses</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.get_category_totals"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.get_category_totals" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.get_expenses">
+<span class="sig-name descname"><span class="pre">get_expenses</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.get_expenses"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.get_expenses" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.get_expenses_data">
+<span class="sig-name descname"><span class="pre">get_expenses_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.get_expenses_data"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.get_expenses_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="model.ExpenseModel.update_expense">
+<span class="sig-name descname"><span class="pre">update_expense</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expense_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amount</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/model.html#ExpenseModel.update_expense"><span class="viewcode-link"><span class="pre">[fuente]</span></span></a><a class="headerlink" href="#model.ExpenseModel.update_expense" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Pie de página">
+        <a href="main.html" class="btn btn-neutral float-left" title="main module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Anterior</a>
+        <a href="view.html" class="btn btn-neutral float-right" title="view module" accesskey="n" rel="next">Siguiente <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2024, Expense Tracker App.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

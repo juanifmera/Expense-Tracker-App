@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="es" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>controller &mdash; documentación de Expense Tracker App - 0.0.1</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6fcc102b"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=f85f4cfb"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Índice" href="../genindex.html" />
+    <link rel="search" title="Búsqueda" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Expense Tracker App
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Buscar documentos" aria-label="Buscar documentos" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../controller.html">controller module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../main.html">main module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">model module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../view.html">view module</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Expense Tracker App</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Código de módulo</a></li>
+      <li class="breadcrumb-item active">controller</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Código fuente para controller</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="n">ExpenseModel</span>
+<span class="kn">from</span> <span class="nn">view</span> <span class="kn">import</span> <span class="n">ExpenseView</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span>  <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib.ticker</span> <span class="kn">import</span> <span class="n">ScalarFormatter</span>
+
+<div class="viewcode-block" id="ExpenseController">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController">[documentos]</a>
+<span class="k">class</span> <span class="nc">ExpenseController</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">ExpenseModel</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">ExpenseView</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">set_controller</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_categories</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_expenses</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">editing_expense_id</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_chart</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ExpenseController.add_expense">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.add_expense">[documentos]</a>
+    <span class="k">def</span> <span class="nf">add_expense</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">date</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">date_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">title_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">amount</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">amount_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">category</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">category_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">title</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">date</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">amount</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">category</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Error: Todos los campos son obligatorios.&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+        
+        <span class="n">regex</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;^[A-Za-z\s]+$&#39;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">regex</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Error: El campo &#39;Title&#39; solo debe contener letras.&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">editing_expense_id</span><span class="p">:</span>
+            <span class="c1"># Estamos en modo de edición, actualizamos el registro existente</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">update_expense</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">editing_expense_id</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Expense updated successfully.&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editing_expense_id</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">add_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Add Expense&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Modo normal de creación de nuevo registro</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">add_expense</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Expense has been created successfully.&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_expenses</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">clear_fields</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_chart</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExpenseController.delete_expense">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.delete_expense">[documentos]</a>
+    <span class="k">def</span> <span class="nf">delete_expense</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">selected_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">selected_item</span><span class="p">:</span>
+            <span class="n">item_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">selected_item</span><span class="p">)[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">delete_expense</span><span class="p">(</span><span class="n">item_id</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load_expenses</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Expense has been deleted successfully.&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">clear_fields</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Error: No expense selected for deletion.&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">clear_fields</span><span class="p">()</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_chart</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExpenseController.edit_expense">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.edit_expense">[documentos]</a>
+    <span class="k">def</span> <span class="nf">edit_expense</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">selected_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">selection</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">selected_item</span><span class="p">:</span>
+            <span class="n">item_values</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">item</span><span class="p">(</span><span class="n">selected_item</span><span class="p">)[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">editing_expense_id</span> <span class="o">=</span> <span class="n">item_values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">item_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="n">item_values</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">amount</span> <span class="o">=</span> <span class="n">item_values</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">category</span> <span class="o">=</span> <span class="n">item_values</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            
+            <span class="n">amount</span> <span class="o">=</span> <span class="n">amount</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">amount</span>
+            
+            <span class="c1"># Cargamos los datos en los campos de entrada</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">set_edit_fields</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">category</span><span class="p">)</span>
+            
+            <span class="c1"># Cambiamos el texto del botón &quot;Add Expense&quot; para reflejar el modo de edición</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">add_button</span><span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="s2">&quot;Save Changes&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Edit mode: Press &#39;Save Changes&#39; to update.&quot;</span><span class="p">,</span> <span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;Error: No expense selected for editing.&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_chart</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExpenseController.load_expenses">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.load_expenses">[documentos]</a>
+    <span class="k">def</span> <span class="nf">load_expenses</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Limpiar la tabla antes de recargarla</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_children</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+        
+        <span class="c1"># Insertar los gastos en la tabla con formato de miles</span>
+        <span class="k">for</span> <span class="n">expense</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get_expenses</span><span class="p">():</span>
+            <span class="n">formatted_amount</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{:,}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">expense</span><span class="o">.</span><span class="n">amount</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="p">(</span><span class="n">expense</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">expense</span><span class="o">.</span><span class="n">date</span><span class="p">,</span> <span class="n">expense</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">formatted_amount</span><span class="p">,</span> <span class="n">expense</span><span class="o">.</span><span class="n">category</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_chart</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExpenseController.load_categories">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.load_categories">[documentos]</a>
+    <span class="k">def</span> <span class="nf">load_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">categories</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get_categories</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">category_combobox</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">categories</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_chart</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ExpenseController.calculate_totals">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.calculate_totals">[documentos]</a>
+    <span class="k">def</span> <span class="nf">calculate_totals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">totals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">calculate_totals</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">totals</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Total by Category: </span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">category</span><span class="si">}</span><span class="s2">: $</span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">,.2f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">total</span> <span class="ow">in</span> <span class="n">totals</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;No hay gastos registrados&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_chart</span><span class="p">()</span></div>
+
+    
+<div class="viewcode-block" id="ExpenseController.generate_chart">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.generate_chart">[documentos]</a>
+    <span class="k">def</span> <span class="nf">generate_chart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df_expenses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get_expenses_data</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">df_expenses</span><span class="o">.</span><span class="n">empty</span><span class="p">:</span>
+            <span class="n">category_totals</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">get_category_totals</span><span class="p">(</span><span class="n">df_expenses</span><span class="p">)</span>
+            <span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">category_totals</span><span class="p">)))</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">4.2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+            <span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">category_totals</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">category_totals</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;($)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>  
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>  
+            <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">get_yaxis</span><span class="p">()</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">ScalarFormatter</span><span class="p">())</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">0.15</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">display_chart</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">update_message</span><span class="p">(</span><span class="s2">&quot;No hay datos para graficar.&quot;</span><span class="p">,</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="ExpenseController.refresh_chart">
+<a class="viewcode-back" href="../controller.html#controller.ExpenseController.refresh_chart">[documentos]</a>
+    <span class="k">def</span> <span class="nf">refresh_chart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generate_chart</span><span class="p">()</span></div>
+</div>
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Derechos de autor 2024, Expense Tracker App.</p>
+  </div>
+
+  Compilado con <a href="https://www.sphinx-doc.org/">Sphinx</a> usando un
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">tema</a>
+    proporcionado por <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
